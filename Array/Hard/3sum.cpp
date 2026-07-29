@@ -1,0 +1,100 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<set>
+using namespace std;
+
+vector<vector<int>> sum3_brute(vector <int> v){
+    int n= v.size();
+   
+    set<vector<int>> s;
+
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            for(int k=j+1;k<n;k++){
+                if(v[i]+v[j]+v[k]==0){
+                    vector<int> temp = {v[i],v[j],v[k]};
+                    sort(temp.begin(),temp.end());
+                    s.insert(temp);
+                }
+    }
+    }
+    }
+      vector<vector<int>> ans(s.begin(),s.end());
+    return ans;
+
+}
+
+vector<vector<int>> sum3_better(vector <int> v){
+    int n= v.size();
+   
+    set<vector<int>> s;
+
+    for(int i=0;i<n;i++){
+        set<int> hash;
+        for(int j=i+1;j<n;j++){
+            int third = -(v[i]+v[j]);
+            if(hash.find(third) != hash.end()){
+                vector<int> temp ={v[i],v[j],third};
+                sort(temp.begin(),temp.end());
+                s.insert(temp);
+            }
+            hash.insert(v[j]);
+
+    }
+    }
+      vector<vector<int>> ans(s.begin(),s.end());
+    return ans;
+
+}
+
+vector<vector<int>> sum3(vector <int> &v){
+    int n= v.size();
+    sort(v.begin(),v.end());
+    vector<vector<int>> ans;
+
+    for(int i=0;i<n;i++){
+        if(i>0 && v[i]==v[i-1])continue;
+        int j=i+1;
+        int k = n-1;
+        while(j<k){
+            int sum = v[i]+v[j]+v[k];
+            if(sum<0){
+                j++;
+            }else if(sum>0){
+                k--;
+            }else{
+                vector<int> temp = {v[i],v[j],v[k]};
+                ans.push_back(temp);
+                j++;k--;
+                while(j<k && v[j]==v[j-1]){j++;}
+                while(j<k && v[k]==v[k+1]){k--;}
+
+            }
+        }
+        
+
+        
+    }
+    return ans;
+
+}
+
+
+
+int main (){
+    vector<int> v ={-1,1,-1,0,2,-2};
+
+    // vector<vector<int>> ans = sum3_brute(v);
+    // vector<vector<int>> ans = sum3_better(v);
+     vector<vector<int>> ans = sum3(v);
+
+    for(auto a : ans){
+       for(auto k : a){
+        cout<< k << " ";
+       }
+        cout<< "," <<endl;
+
+    }
+    return 0;
+}
