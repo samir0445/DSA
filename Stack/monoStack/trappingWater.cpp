@@ -41,13 +41,43 @@ using namespace std;
 
         
     }
+    int trapOptimal(vector<int>& height){
+        int n = height.size();
+
+       int  total =0;
+
+       int leftmax = 0; int rightmax =0;
+        int left =0;
+        int right = n-1;
+        while(left<=right){
+            if(height[left]<height[right]){
+                if(height[left]>=leftmax){
+                    leftmax = height[left];
+                }else{
+                    total+= leftmax-height[left];
+
+                }left++;
+            }else{
+                 if(height[right]>=rightmax){
+                    rightmax= height[right];
+                }else{
+                    total+= rightmax-height[right];
+
+                }
+                right--;
+            }
+        }
+
+       return total;
+    }
 
 int main(){
 
     // vector<int> h = {0,1,0,2,1,0,1,3,2,1,2,1};
     vector<int> h = {4,2,0,3,2,5};
 
-    int ans = trap(h);
+    // int ans = trap(h);
+    int ans = trapOptimal(h);
     cout<< " total trap water " << ans << endl;
 
     return 0;
